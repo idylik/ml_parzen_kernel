@@ -12,19 +12,21 @@ def draw_rand_label(x, label_list):
     return np.random.choice(label_list)
 #############################################
 
-
+#Distance Minkowski
 def minkowski_mat(x, Y, p=2):
     return (np.sum((np.abs(x - Y)) ** p, axis=1)) ** (1.0 / p)
 
 
 class Q1:
 
+    #Moyennes de chaque feature
     def feature_means(self, banknote):
         return np.mean(banknote[:,:-1], axis=0)
 
     def covariance_matrix(self, banknote):
         return np.cov(banknote[:,:-1], rowvar=False)
 
+    #Moyenne des features de la classe 1
     def feature_means_class_1(self, banknote):
         return np.mean(banknote[banknote[:,-1]==1][:,:-1], axis=0)
 
@@ -67,7 +69,7 @@ class HardParzen:
 
 
 
-
+#Parzen avec noyau gaussien
 class SoftRBFParzen:
     def __init__(self, sigma):
         self.sigma  = sigma
@@ -99,7 +101,7 @@ class SoftRBFParzen:
         return np.exp(exponent)/N
 
 
-
+#Sépare le jeu de données en données d'entrainement, de validation et de test
 def split_dataset(banknote):
     train = np.array([banknote[i] for i in range(len(banknote)) if i%5==0 or i%5==1 or i%5==2])
     validation = np.array([banknote[i] for i in range(len(banknote)) if i%5==3])
